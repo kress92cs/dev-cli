@@ -1,5 +1,5 @@
 {
-  "name": "dev",
+  "name": "@imoverse/dev-cli",
   "version": "1.0.0",
   "description": "",
   "main": "dev.js",
