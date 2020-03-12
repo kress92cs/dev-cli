@@ -7,8 +7,8 @@ module.exports = function getDevRoot() {
   const parentFolders = cwd.split(path.sep);
 
   while (parentFolders.length > 0) {
-    const currentPath = `${parentFolders.join('/')}`;
-    const currentFile = `${currentPath}/.dev`;
+    const currentPath = `${parentFolders.join("\\")}`;
+    const currentFile = `${currentPath}\\.dev`;
     let content;
 
     content = getFileContent(currentFile);
