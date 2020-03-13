@@ -6,6 +6,7 @@
   "bin": "dev.js",
   "dependencies": {
     "shelljs": "^0.8.3",
+    "simple-git": "^1.132.0",
     "yaml": "^1.5.1"
   },
   "devDependencies": {},
