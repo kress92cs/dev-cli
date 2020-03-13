@@ -1,3 +1,4 @@
+const collection = require('./collection');
 const operations = {
   git: require('./git'),
   build: require('./build'),
@@ -6,7 +7,8 @@ const operations = {
   cd: require('./cd'),
   createNetwork: require('./createNetwork'),
   startExternal: require('./startExternal'),
-  c: require('./c'),
+  c: collection,
+  collection,
 };
 
 module.exports = operations;
