@@ -3,14 +3,14 @@ const yaml = require('yaml');
 const getFileContent = require('./get_file_content');
 
 module.exports = function getDevRoot() {
+  const dirSeperator = process.platform === 'win32' ? "\\" : '/';
   const cwd = process.cwd();
   const parentFolders = cwd.split(path.sep);
 
   while (parentFolders.length > 0) {
-    const currentPath = `${parentFolders.join("\\")}`;
-    const currentFile = `${currentPath}\\.dev`;
+    const currentPath = `${parentFolders.join(dirSeperator)}`;
+    const currentFile = `${currentPath}${dirSeperator}.dev`;
     let content;
-
     content = getFileContent(currentFile);
 
     if (content) {
