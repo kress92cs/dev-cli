@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "dev.js",
-  "bin": "dev.js",
+  "bin": {
+    "dev": "./dev.js"
+  },
   "dependencies": {
     "shelljs": "^0.8.3",
     "yaml": "^1.5.1"
