@@ -1,7 +1,11 @@
-const USER = '';
-const PASS = '';
-const REPO = ''
+const dotenv = require('dotenv');
+dotenv.config();
 
+const USER = process.env.USER;
+const PASS = process.env.PASSWORD;
+const REPO = REPO_MAIN + 'image-api-chris/src/master/'
+
+const fs = require('fs');
 const gitPromise = require('simple-git/promise');
 
 const remote = `https://${USER}:${PASS}@${REPO}`;
@@ -10,14 +14,13 @@ const remote = `https://${USER}:${PASS}@${REPO}`;
 
 module.exports = (context, search) => {
 
-
     const git = gitPromise(context.root);
     if (search === 'clone') {
         git.silent(true)
             .clone(remote)
             .then(() => console.log('finished cloning ' + REPO +
                 " as user: " + USER + " to destination " +
-                context.root + repoSourceName))
+                context.root))
             .catch((err) => console.error('failed: ' + "as user: " + USER + "in directory " + context.root, err));
     }
     if (search === "pull") {
