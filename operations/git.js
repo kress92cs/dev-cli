@@ -1,25 +1,27 @@
-const USER = 'kress92cs';
-const PASS = 'QWaszx123890';
-const REPO = 'github.com/kress92cs/nodejsclone'
+const USER = '';
+const PASS = '';
+const REPO = ''
 
 const gitPromise = require('simple-git/promise');
-const git = gitPromise(require('os').homedir() + "\\GitHub");
 
 const remote = `https://${USER}:${PASS}@${REPO}`;
 
 
 
 module.exports = (context, search) => {
+
+
+    const git = gitPromise(context.root);
     if (search === 'clone') {
         git.silent(true)
             .clone(remote)
             .then(() => console.log('finished cloning ' + REPO +
                 " as user: " + USER + " to destination " +
-                require('os').homedir()) + "\\GitHub")
-            .catch((err) => console.error('failed: ' + "as user: " + USER, err));
+                context.root + repoSourceName))
+            .catch((err) => console.error('failed: ' + "as user: " + USER + "in directory " + context.root, err));
     }
     if (search === "pull") {
-        require('simple-git')(require('os').homedir() + "\\GitHub\\nodejsclone")
+        require('simple-git')(context.root)
             .pull((err, update) => {
                 if (update && update.summary.changes) {
                     console.log("Successfull pulled down " + update.summary.changes + " number of files")
@@ -28,7 +30,7 @@ module.exports = (context, search) => {
             });
     }
     if (search === "commit") {
-        require('simple-git')(require('os').homedir() + "\\GitHub\\nodejsclone")
+        require('simple-git')(context.root)
             .add('./*')
             .commit("first commit!")
             .push(['-u', 'origin', 'master'], () => console.log('done'));
