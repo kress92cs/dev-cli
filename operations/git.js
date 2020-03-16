@@ -1,53 +1,43 @@
-const dotenv = require('dotenv');
-dotenv.config();
 
-const USER = process.env.USER;
-const PASS = process.env.PASSWORD;
-const REPO = process.env.REPO_MAIN;
-
-const fs = require('fs');
-const gitPromise = require('simple-git/promise');
-
-const remote = `https://${USER}:${PASS}@${REPO}`;
-
-
+const git = require('simple-git');
 
 module.exports = (context, search) => {
 
 
-    const git = gitPromise(context.root);
+    let arrayOfGits =
+        [
+            "git@bitbucket.org:imove-dev/imove-event-api.git",
+            "git@bitbucket.org:imove-dev/trip-logger-service.git",
+            "git@bitbucket.org:imove-dev/kinto-cloud.git",
+            "git@bitbucket.org:imove-dev/vehicle-api.git",
+            "git@bitbucket.org:imove-dev/inventory-api.git",
+            "git@bitbucket.org:imove-dev/task-api.git",
+        ]
 
-    context.containers.forEach(container => {
+    const GIT_SSH_COMMAND = "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no";
 
-    });
+    git()
+        .env('GIT_SSH_COMMAND', GIT_SSH_COMMAND)
+        .status((err, status) => { if (err) { console.log(err) } })
 
-    let containerName = context.containers.map(function (container) {
-        return container['name'];
-    })
-    containerName.shift();
+    const gitPromise = require('simple-git/promise');
+
+    function gitClone(repoToClone, toPath) {
+        gitPromise(toPath).env({ ...process.env, GIT_SSH_COMMAND })
+            .clone(repoToClone)
+            .then(() => console.log('finished cloning ' + repoToClone +
+                " to destination " +
+                toPath))
+            .catch((err) => console.error('failed: ' + "in directory " + repoToClone, err));
+    }
+
+    function cloneAllFromRepository(arrayWithRepoGit, toPath) {
+        arrayWithRepoGit.forEach(element => {
+            gitClone(element, toPath);
+        });
+    }
+
     if (search === 'clone') {
-        // containerName.forEach(name => {
-        git.silent(true)
-            .clone(REPO)
-            .then(() => console.log('finished cloning ' + REPO +
-                " as user: " + USER + " to destination " +
-                context.root))
-            .catch((err) => console.error('failed: ' + "as user: " + USER + "in directory " + REPO, err));
-        // });
-    }
-    if (search === "pull") {
-        require('simple-git')(context.root)
-            .pull((err, update) => {
-                if (update && update.summary.changes) {
-                    console.log("Successfull pulled down " + update.summary.changes + " number of files")
-                    require('child_process').exec('npm restart');
-                }
-            });
-    }
-    if (search === "commit") {
-        require('simple-git')(context.root)
-            .add('./*')
-            .commit("first commit!")
-            .push(['-u', 'origin', 'master'], () => console.log('done'));
+        cloneAllFromRepository(arrayOfGits, (context.root + "\\testFolder"));
     }
 }
