@@ -1,6 +1,7 @@
 const collection = require('./collection');
 const operations = {
-  git: require('./git'),
+  clone: require('./clone'),
+  pull: require('./pull'),
   build: require('./build'),
   run: require('./run'),
   stop: require('./stop'),
