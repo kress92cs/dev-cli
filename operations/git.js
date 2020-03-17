@@ -38,6 +38,6 @@ module.exports = (context, search) => {
     }
 
     if (search === 'clone') {
-        cloneAllFromRepository(arrayOfGits, (context.root + "\\testFolder"));
+        cloneAllFromRepository(arrayOfGits, (context.root));
     }
 }
