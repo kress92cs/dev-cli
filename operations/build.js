@@ -30,6 +30,6 @@ module.exports = (context, search) => {
     }
     const cwd = process.cwd();
     const containerName = cwd.substring(cwd.lastIndexOf('/') + 1);
-    runCommand(containerName, path);
+    runCommand(containerName);
   });
 };
