@@ -19,8 +19,13 @@ module.exports = (context, search) => {
       return;
     }
     const cwd = process.cwd();
-    console.log(cwd);
-    const containerName = cwd.substring(cwd.lastIndexOf('\\') + 1);
+    let containerName;
+    if (cwd.lastIndexOf('\\') !== -1) {
+      containerName = cwd.substring(cwd.lastIndexOf('\\') + 1);
+    } else {
+      containerName = cwd.substring(cwd.lastIndexOf('/') + 1);
+    }
+
     const containerConfig = context.containers.find((c) => c.name === containerName);
     runContainer(context, containerConfig);
   });
